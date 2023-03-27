@@ -8,6 +8,9 @@ SQL is a language specializing in database management
 - Widely used in industry
 - Typical task is to extract data from server
 - Many concepts are similar to Python
+-- SQLBook: Code
+-- Active: 1673989507092@@127.0.0.1@5432@postgres
+
 -- SQLBook: Markup
 # <span style="color:darkblue"> I. Connect to Local Server </span>
 
@@ -40,6 +43,7 @@ Delete existing table
 -- If it doesn't exist nothing happens
 -- System commands are in upper case and user defined
 -- names are in lower case
+-- end each line with semicolon ;
 -- Comments are written with double dashes "--" rather than hastag (#)
 
 DROP TABLE IF EXISTS drivers;
@@ -58,6 +62,7 @@ CREATE TABLE drivers(
     nationality varchar(15),
     victories int
 );    
+--just lets SQL know column types
 -- SQLBook: Markup
 <font size="5"> 
 
@@ -99,7 +104,12 @@ Try it yourself!
 -- Select a new driver id (needs to be unique)
 -- Make sure to deparate arguments by a semicolon!
 
+INSERT INTO drivers  VALUES (5, 'Sush', 'Brown',6);
+INSERT INTO drivers  VALUES (6, 'Aanya', 'Indian',66);
 
+
+
+-- SQLBook: Code
 
 
 -- SQLBook: Markup
@@ -113,7 +123,7 @@ Extracting columns from table
 -- SELECT extracts certain COLUMNS
 -- FROM is used to indicate the source table
 
-SELECT driver_id nationality FROM drivers;
+SELECT driver_id, nationality FROM drivers;
 -- SQLBook: Markup
 <font size="5"> 
 
@@ -138,6 +148,7 @@ WHERE (nationality = 'German') OR (nationality = 'British');
 SELECT * FROM drivers
 WHERE (nationality = 'German') AND (driver_id = 2);
 
+-- be sure to use single quotations for strings, only need one equal sign!
 -- SQLBook: Markup
 <font size="5"> 
 
@@ -147,11 +158,12 @@ Aggregate
 -- such as SUM() or AVG() 
 -- The AS is an alias which assigns a name to the aggregate statistic
 
-SELECT COUNT(*) AS num_rows,
+SELECT COUNT(*) AS num_rows, -- creating alias  
        SUM(victories) AS sum_victories,
        AVG(victories) AS mean_victories,
        MIN(victories) AS min_victories,
        MAX(victories) AS max_victories
+       -- each one is a separate function
 FROM drivers
 -- SQLBook: Markup
 <font size="5"> 
@@ -188,7 +200,8 @@ with more than 60 victories
 -- SQLBook: Code
 -- Write your own code!
 
-
+SELECT driver_id, nationality FROM drivers
+WHERE (victories >= 60);
 
 
 
@@ -242,8 +255,8 @@ SELECT nationality,
        MAX(victories) AS max_victories
 FROM drivers
 WHERE nationality = 'German'
-GROUP BY nationality
-HAVING SUM(victories) > 50;
+GROUP BY nationality -- do group by at the end
+HAVING SUM(victories) > 50; -- having used for aggregate
 -- SQLBook: Markup
 # <span style="color:darkblue"> IV. Learning more </span>
 
@@ -260,7 +273,7 @@ $\qquad \qquad \qquad \qquad \ $```GROUP BY```<br>
 
 -- SQLBook: Code
 
--- BASIC SYNTAX:
+-- BASIC SYNTAX!!
 
 -- Commands separated by a semicolon ";"
 -- Commands in upper case, inputs lower case
