@@ -61,7 +61,7 @@ CREATE TABLE us_congress_members (
 DROP TABLE IF EXISTS bills_actions;
 
 CREATE TABLE bills_actions (
-        "Congress"  int NOT NULL, -- not null -> must be filled in
+        "Congress"  int NOT NULL,
         bill_number int ,
         bill_type   varchar(30),
         action      varchar(1000),
@@ -85,7 +85,13 @@ Try it yourself!
 -- SQLBook: Code
 # Write your own code
 
-CREATE TABLE bills_actions ()
+CREATE TABLE bills_subjects(
+    subject varchar(30),
+    main_subject varchar(30),
+    
+    
+);
+
 -- SQLBook: Markup
 # <span style="color:darkblue"> II. Import CSV into SQL </span>
 
