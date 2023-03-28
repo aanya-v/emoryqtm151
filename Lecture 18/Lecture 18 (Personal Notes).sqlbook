@@ -51,6 +51,7 @@ CREATE TABLE us_congress_members (
         chamber      varchar(30)
 );
 -- SQLBook: Code
+-- Active: 1673989507092@@127.0.0.1@5432@postgres
 -- (i) The NOT NULL option is a special restrition saying
 --     that you are not allowed to enter missing data for this column
 --     SQL includes a lot of data quality checks like this
@@ -83,15 +84,18 @@ Try it yourself!
 
 - Create a new table for "bills_subjects"
 -- SQLBook: Code
-# Write your own code
+-- Write your own code
+DROP TABLE IF EXISTS bills_subjects;
+
 
 CREATE TABLE bills_subjects(
-    subject varchar(30),
-    main_subject varchar(30),
-    
+    "Congress" int NOT NULL,
+    bill_number int,
+    bill_type varchar(30),
+    bill_subject varchar(30)
     
 );
-
+-- creates empty frame
 -- SQLBook: Markup
 # <span style="color:darkblue"> II. Import CSV into SQL </span>
 
@@ -121,6 +125,7 @@ FROM 'D:\GitHub\qtm151spring2023\Lecture 18\data\us_congress_members.csv' ```
 WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
 ```
 -- SQLBook: Code
+-- Active: 1673989507092@@127.0.0.1@5432@postgres
 -- The argument associaated with COPY is the dataset in our server
 -- The argument associaated with FROM is a filepath name
 -- There are three options specified in WITH:
@@ -128,6 +133,7 @@ WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
 -----  FORMAT indicates that this is a CSV
 -----  HEADER MATCH indicates that the first row contains column
 -----  names and should be ignored when importing.
+
 -- SQLBook: Markup
 <font size = "5">
 
@@ -154,7 +160,7 @@ Try it yourself!
 SELECT * FROM us_congress_members
 ```
 -- SQLBook: Code
-# Write your own code
+-- Write your own code
 -- Note in the instructor's computer this is:
 -- You just have to change the FROM argument
 --
@@ -163,7 +169,9 @@ SELECT * FROM us_congress_members
 -- WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
 
 
-
+COPY us_congress_members
+FROM '/private/tmp/data/us_congress_members.csv'
+WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
 
 
 -- SQLBook: Markup
@@ -185,6 +193,10 @@ SELECT * FROM bills_actions
 -- COPY bills_actions
 -- FROM 'D:\GitHub\qtm151spring2023\Lecture 18\data\bills_actions.csv'
 -- WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
+
+COPY bills_actions
+FROM '/private/tmp/data/bills_actions.csv'
+WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
 
 
 -- SQLBook: Markup
@@ -245,7 +257,7 @@ Merge Databases
 -- The format is
 -----  ON data1.key = data2.key
 
-SELECT * 
+SELECT *  -- selects all rows
 FROM bills_actions
 LEFT JOIN us_congress_members
 ON bills_actions.member_id  = bills_actions.member_id;
